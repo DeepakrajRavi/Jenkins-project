@@ -31,7 +31,7 @@ pipeline {
     }
     stage('Build and Push Docker Image') {
       environment {
-        DOCKER_IMAGE = "DOCKER_IMAGE = "deepakbird/cicd-project:${BUILD_NUMBER}"
+        DOCKER_IMAGE = "DOCKER_IMAGE = "deepakbird/ultimate-cicd:${BUILD_NUMBER}"
         REGISTRY_CREDENTIALS = credentials('docker-cred')
       }
       steps {
