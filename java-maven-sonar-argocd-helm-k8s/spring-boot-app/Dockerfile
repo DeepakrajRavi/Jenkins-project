@@ -1,15 +1,14 @@
 # Start from Maven image with Java 17 Temurin
 FROM maven:3.8.8-eclipse-temurin-17
 
-# Install Docker CLI (Alpine based, so use apk)
 USER root
 
-# Install Docker CLI
-RUN apk add --no-cache \
-    docker-cli \
+# Install Docker CLI and other tools using apt-get
+RUN apt-get update && apt-get install -y \
+    docker.io \
     bash \
     curl \
-    && rm -rf /var/cache/apk/*
+    && rm -rf /var/lib/apt/lists/*
 
 # Set working directory for your app
 WORKDIR /opt/app
@@ -22,4 +21,5 @@ COPY ${artifact} app.jar
 
 # Default entrypoint to run your app
 ENTRYPOINT ["java", "-jar", "app.jar"]
+
 
