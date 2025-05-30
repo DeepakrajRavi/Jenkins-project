@@ -51,6 +51,10 @@ pipeline {
         GIT_USER_NAME = "DeepakrajRavi"
       }
       steps {
+        script {
+          // Clone the repo first
+          git branch: 'main', url: "https://github.com/${env.GIT_USER_NAME}/${env.GIT_REPO_NAME}.git"
+         }
         withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
           sh '''
             git config user.email "deepakravi1810@gmail.com"
