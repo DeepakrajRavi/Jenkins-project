@@ -1,13 +1,25 @@
-# You can change this base image to anything else
-# But make sure to use the correct version of Java
-FROM eclipse-temurin:17-jre-alpine
+# Start from Maven image with Java 17 Temurin
+FROM maven:3.8.8-eclipse-temurin-17
 
-# Simply the artifact path
-ARG artifact=target/spring-boot-web.jar
+# Install Docker CLI (Alpine based, so use apk)
+USER root
 
+# Install Docker CLI
+RUN apk add --no-cache \
+    docker-cli \
+    bash \
+    curl \
+    && rm -rf /var/cache/apk/*
+
+# Set working directory for your app
 WORKDIR /opt/app
 
+# Copy artifact argument (can be overridden during build)
+ARG artifact=target/spring-boot-web.jar
+
+# Copy the artifact (your Spring Boot JAR)
 COPY ${artifact} app.jar
 
-# This should not be changed
-ENTRYPOINT ["java","-jar","app.jar"]
+# Default entrypoint to run your app
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
